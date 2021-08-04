@@ -1,0 +1,475 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>物品详情|窝窝团</title>
+<link rel="stylesheet" href="css/basic.css" />
+  <style>
+    .cCode{
+      position: fixed;
+      bottom: 331px;
+      right: 1px;
+      text-decoration: none;
+      background-color: yellow;
+    }
+  </style>
+</head>
+
+<body id="center">
+<div id="shop">
+<div id="headTop">
+  <ul class="headTopUl clearfix">
+    <li class="headTopUser">
+      <ul class="headTopList clearfix">
+        <li class="headRelat listmore"> <em class="moreico">woico</em> <a class="Gray7" href="#" gae="click_my_55tuan">更多</a> <b class="triangleT">triangle</b>
+          <ul class="ulbox linkmorbox">
+            <li> <a href="#" gae="click_mobile_top">手机版下载</a> </li>
+            <li> <a id="addEmailBtn" href="#" gae="sub/Email">邮件订阅</a> </li>
+            <li> <a href="#" onclick="AddFavorite(window.location,document.title)" gae="click_addfavorite">收藏本站</a> </li>
+          </ul>
+          <b class="bh whiteBor">遮盖</b> </li>
+        <li class="headRelat listsec"> <a class="Gray7" href="javascript:;" gae="click_my_55tuan">关注</a> <b class="triangleT">triangle</b>
+          <ul class="ulbox linkBoxsec">
+            <li> <a class="wowo-sina" href="#" gae="weibo/r" target="_blank" title="窝窝团新浪微博">窝窝团新浪微博</a> </li>
+            <li> <a class="wowo-qq" href="#" gae="qqwb/r" target="_blank" title="窝窝团腾讯微博">窝窝团腾讯微博</a> </li>
+            <li> <a class="wowo-sina" href="#" gae="weibosinakf/r" title="窝窝团新浪客服微博" target="_blank">窝窝团新浪客服微博</a> </li>
+          </ul>
+          <b class="bh whiteBor">遮盖</b> </li>
+        <li class="headRelat headline"> <em class="l-ico"></em> </li>
+        <li class="headRelat list"> <em class="woico">woico</em> <a class="Gray7" rel="nofollow" href="#" gae="click_my_55tuan">我的窝窝</a> <b class="triangleT">triangle</b>
+          <ul class="ulbox linkBox">
+            <li><a rel="nofollow" href="javascript:void(0)" @click="myOrder()">我的订单</a></li>
+            <li><a rel="nofollow" href="javascript:void(0)">我的收藏</a></li>
+            <li v-if="loginname==''"><a rel="nofollow" href="#">我的积分</a></li>
+            <li v-else><a rel="nofollow" href="#">我的积分:{{integral}}</a></li>
+            <li v-if="loginname!=''"><a href="javascript:void(0)" @click="isOK()">商品注入</a></li>
+            <li><a rel="nofollow" href="#">我的评价</a></li>
+            <li><a rel="nofollow" href="#">帐号设置</a></li>
+            <li><a rel="nofollow" href="#">消息中心</a></li>
+          </ul>
+          <b class="bh whiteBor">遮盖</b> </li>
+      </ul>
+    </li>
+    <li class="headTopLogin"> <span class="Gray7" v-if="isshow"> 您好！请 [<a class="yellowd1" rel="nofollow" gae="click_toplogin" href="login.html">登录</a>] <b class="borderdc">|</b> [<a class="yellowd1" rel="nofollow" gae="click_topregister" href="#">注册</a>] <b class="borderdc p_0_10">|</b> </span>
+      <span class="Gray7" v-else style="font-family: '微软雅黑', '黑体';color: black">窝窝网站欢迎您{{loginname}}
+                    <a href="javascript:void(0)" @click="loginout()" style="color: blue">退出</a>
+                </span>
+      <ul class="clearfix">
+        <li id="msgCount" class="headTopUlist no"> <em class="messico">messico</em> <a class="Gray7" rel="nofollow" href="#">消息</a> </li>
+        <b class="borderdc p_1_10">|</b>
+      </ul>
+      <a id="integration" gae="click_topsignin" href="#"> <em></em> 100积分可以打八折哦！！！500积分七折哦！！！ </a> </li>
+  </ul>
+</div>
+<div id="headMin">
+  <ul class="headConul clearfix">
+    <li class="logoLi"> <a gae="click_logo" href="index.html">
+      <h1 class="bh logo">窝窝团</h1>
+      </a> </li>
+    <li class="wowoTitLi"> <a gae="click_slogan" href="#">
+      <h2 class="bh wowoTit">精挑细选</h2>
+      </a> </li>
+    <li class="cityBox">
+      <h2 id="cityname" class="cityName">衡阳</h2>
+      <span class="cityLink"> 【<a class="Gray5a" href="http://www.55tuan.com/city_list.html" gae="city_list">切换城市</a>】 </span> <span id="show_city" class="cityTs"> <b class="triangbor">三角</b> <a id="ipClose" class="closeTs" href="javascript:;">关闭</a> 您是不是在 <em id="ipcityname" class="bluec4">衡阳</em> ？点击可选择其他城市 </span> </li>
+    <li class="searchLi ">
+      <div class="searchlf"> <span class="tri"></span>
+        <div class="hd"> <a class="on deal" href="javascript:;">团购</a> <a class="shoper" href="javascript:;">商家</a> </div>
+      </div>
+      <form id="soso_form" method="get" action="">
+        <input class="searchTxt" type="text" autocomplete="off" maxlength="140" name="w" value="请输入商品名、地址">
+        <a id="soso_submit" class="searchBtn" href="#">搜索</a>
+        <input id="sg_from" type="hidden" name="sg_from" value="1">
+        <input id="searchType" type="hidden" name="searchType" value="0">
+      </form>
+      <div class="hotkey" style="display:block" data-title="data_T"> <a target="_self" gae="click_search_top-月饼" href="#">月饼</a> <a class="on" target="_self" gae="click_search_top-KTV" href="#">KTV</a> <a target="_self" gae="click_search_top-蛋糕" href="#">蛋糕</a> <a target="_self" gae="click_search_top-希朵曼" href="#">希朵曼</a> <a target="_self" gae="click_search_top-万达" href="#">万达</a> <a target="_self" gae="click_search_top-水上乐园" href="#">水上乐园</a> </div>
+      <div class="hotkey" data-title="data_S" style="display: none;"> <a target="_self" gae="click_search_top-月饼" href="#">月饼</a> <a class="on" target="_self" gae="click_search_top-KTV" href="#">KTV</a> <a target="_self" gae="click_search_top-蛋糕" href="#">蛋糕</a> <a target="_self" gae="click_search_top-希朵曼" href="#">希朵曼</a> <a target="_self" gae="click_search_top-万达" href="#">万达</a> <a target="_self" gae="click_search_top-水上乐园" href="#">水上乐园</a> </div>
+      <div class="searchBox">
+        <p class="searchTip">最近搜索过 </p>
+        <ul class="clearfix">
+        </ul>
+      </div>
+    </li>
+    <li id="userPointDiv" class="pointnum"> <b class="triangbor">三角</b> <span class="Gray7"> 积分：<strong id="userPointStrong" class="red21"></strong> </span> </li>
+  </ul>
+</div>
+<div id="headNav">
+  <ul id="navList" class="navUl clearfix">
+    <li class="first_nav" date-nav="index"> <a gae="click_channel1_Nav" href="http://hengyang.55tuan.com">团购精选</a> </li>
+    <li date-nav="shangcheng"> <a gae="click_channel10_Nav" href="http://hengyang.55.com">窝窝商城</a> </li>
+    <li class="zIndex2" date-nav="shenbian"> <a gae="click_channel12_Nav" href="http://hengyang.55tuan.com/shenbian/list">身边</a> </li>
+    <li date-nav="meishi"> <a gae="click_channel2_Nav" href="http://hengyang.55tuan.com/meishi">美食</a> </li>
+    <li date-nav="yule"> <a gae="click_channel3_Nav" href="http://hengyang.55tuan.com/yule">娱乐</a> </li>
+    <li class="zIndex" date-nav="dianying"> <a gae="click_channel4_Nav" href="http://hengyang.55tuan.com/dianying/dingzuo">电影</a> </li>
+    <li date-nav="meirongbaojian"> <a gae="click_channel5_Nav" href="http://hengyang.55tuan.com/meirongbaojian">美容保健</a> </li>
+    <li date-nav="shenghuofuwu"> <a gae="click_channel6_Nav" href="http://hengyang.55tuan.com/shenghuofuwu">生活服务</a> </li>
+    <li date-nav="jiehun"> <a gae="click_channel13_Nav" href="http://jiehun.55tuan.com">结婚</a> </li>
+    <li date-nav="lvyou"> <a gae="click_channel7_Nav" href="http://lvyou.55tuan.com">旅行</a> </li>
+    <li date-nav="jiudian"> <a gae="click_channel8_Nav" href="http://jiudian.55tuan.com">酒店</a> </li>
+    <li date-nav="shangpin"> <a gae="click_channel9_Nav" href="http://shangpin.55tuan.com">网购</a> </li>
+    <li date-nav="shop"> <a gae="click_channel11_Nav" href="http://shop.55tuan.com">品牌汇</a> </li>
+  </ul>
+</div>
+<div class="con_box clearfix">
+  <div class="con_left clearfix">
+    <div class="details-ui clearfix">
+      <h2 class="details-h2">{{details.fname}}</h2>
+      <p class="details-p">{{details.detail}}</p>
+      <ul class="details-lft">
+        <li class="details-rigbg"></li>
+        <li class="details-buy"> <strong class="wowoprice">{{details.price}}</strong> <a class="xqbuy-a" data="buySubmit" rel="nofollow" href="#">抢购</a> </li>
+        <li class="shopprice" v-for="item in contents">
+          <span>价值</span> <span>折扣</span> <span>节省</span>
+          <span class="ari">¥{{item.normprice}}</span> <span class="ari">{{item.discount}}</span> <span class="ari">¥{{item.realprice}}</span>
+        </li>
+        <li class="shopmsg" style="padding-bottom: 2px; padding-top: 7px;" data="groupok"> <span> <strong class="ari" data="salenum">1377</strong> 人已购买 </span> <span>已成团，可继续购买</span> </li>
+
+        <li class="shopensure"> <a class="zhichi" title="支持未消费退款" target="_blank" href="#">支持退款</a> <a class="baiwan" title="百万消费保证金" target="_blank" href="#" style="margin-right: -1px;">百万消费保证金</a> </li>
+      </ul>
+      <div class="details-rit">
+        <ul class="xqtag clearfix">
+          <li class="myy">免预约</li>
+        </ul>
+        <div id="imgBox">
+          <ul>
+            <li> <img width="456" height="304" border="0" :src=`${details.fphoto}`> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="details-left" class="details-msg details-abeam clearfix" style="padding: 0px;">
+      <div class="details-msglft">
+        <div id="goodsAll_info_div" class="details-msgtxt">
+          <div class="pubnav-box">
+            <h2 class="xqtext_title">本单详情</h2>
+            <div class="xqtext_clue">
+              <h2 class="xqtext_title">温馨提示</h2>
+              <dl class="clue_con clearfix">
+                <dt>有效日期：</dt>
+                <dd class="orange">2014年07月08日-09月20日</dd>
+                <dt>限购数量：</dt>
+                <dd>本商品不限购买</dd>
+                <dt>使用规则：</dt>
+                <dd>每张窝窝券限一位男士和一位女士/二位女士使用</dd>
+                <dt>预约提醒：</dt>
+                <dd class="phonemore">该商品无需预约</dd>
+                <dt>其他提示：</dt>
+                <dd class="clue_other">
+                  <ul>
+                    <li>在公共场所娱乐消费时，请您妥善保管好自己随身携带的财物，以防丢失；注意人身安全，避免发生危险。</li>
+                    <li>提供免费wifi</li>
+                    <li>提供免费停车位</li>
+                    <li>1m以下儿童免费，1－1.3m儿童半价,1.3m以上儿童按成人标准收费(含1.3m)，建议购买一张窝窝劵</li>
+                    <li>一位购票成人限带一位免费儿童，超出部分均需购儿童票； 无需预约</li>
+                    <li>有免费专车接送</li>
+                    <li>团购用户不可同时享受商家其他优惠，窝窝券不兑换、不找零</li>
+                  </ul>
+                </dd>
+              </dl>
+            </div>
+            <div class="xqtext-table">
+              <h2 class="xqtext_title">套餐内容</h2>
+              <table id="detailtab" cellspacing="0" cellpadding="0" style="display:block;">
+                <thead>
+                  <tr>
+                    <th class="first" width="282" valign="middle">内容</th>
+                    <th width="126" valign="middle">单价</th>
+                    <th width="140" valign="middle">数量/规格</th>
+                    <th class="last" width="118" valign="middle">总计</th>
+                    <th width="50" valign="middle">选择</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="title" valign="middle" align="center" colspan="5">请勾选套餐</td>
+                  </tr>
+                  <tr v-for="item in contents">
+                    <td class="first" valign="middle" align="left">{{item.name}}</td>
+                    <td valign="middle" align="center">{{item.realprice}}元</td>
+                    <td valign="middle" align="center">{{item.count}}份</td>
+                    <td class="last" valign="middle" align="center">{{item.realprice}}元</td>
+                    <td>
+                      <label>
+                        <input type="radio" id="female" name="choice" :value=`${item.name}` v-model="sex" />
+                      </label>
+                    </td>
+                  </tr>
+                  <tr v-for="item in contents.slice(0,1)">
+                    <td class="bottom" valign="middle" colspan="5"><span>价值：{{item.normprice}}元</span> <span>窝窝价：<strong>{{item.realprice}}</strong>元</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h2 class="xqtext_title">商品介绍</h2>
+              <div class="xqtext_more xqtext_sj" v-for="item in contents">
+                <h3>相关图片(请以实物为准)</h3>
+                <img class="lazyload" height="390" :src=`${item.fphoto}` visibility="hidden">
+                <div class="context"></div>
+                <p class="gs-info">以上图片仅供参考，请以商家实际提供为准</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btmbuy" style="padding: 35px;"> <span class="py" v-for="item in contents.slice(0,1)">¥{{item.realprice}}</span>
+          <ul class="cr" v-for="item in contents.slice(0,1)">
+            <li> 价值<br>
+              <del class="num">¥{{item.normprice}}</del> </li>
+            <li> 折扣<br>
+              <span class="num">{{item.discount}}折</span> </li>
+            <li> 节省<br>
+              <span class="num">¥{{item.realprice}}</span> </li>
+            <li> 评价<br>
+              <a class="num" style="color: red;font-size: 12px;" :href="ishref" @click="see()" >查看全部 ></a> </li>>
+          </ul>
+          <a class="butbtn" data="buySubmit" rel="nofollow" href="javascript:void(0)" @click="order($event)">确认购买</a>
+          <div class="code_bg clearfix"> <img class="img_o" src="images/guanwang.png">
+            <div class="code_font clearfix">
+              <p>手机窝窝</p>
+              <p>扫码下单</p>
+            </div>
+            <div class="code_guide" style="display:none;">
+              <p>手机扫码购买指导</p>
+              <img class="img_i" alt="扫描指导" src="images/code2_m_guide.jpg"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="con_right" class="con_right">
+    <div class="pub-rigwrap">
+      <h2 class="pub-rigtitle">专卖店信息</h2>
+      <div class="xq-shoplist">
+        <div class="hd" style="border: 0px none;"> <a target="_blank" href="#" alt="熊猫餐谋海鲜自助"> <img width="128" height="96" src="images/pic4.png"> </a> <span class="tit">熊猫餐谋海鲜自助</span> <span class="zk"> <span> 折扣：<em>5.0</em>折起 </span> </span> </div>
+      </div>
+    </div>
+    <div class="con-boxrig">
+      <div class="pub-rigwrap"> <a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218" height="120" src="images/baozhang.png"> </a> </div>
+      <a href="#" gae="AD_ALL-SY-RT-00000003-0-82" target="_blank"> <img class="right_ggimg" width="218" height="120" src="images/ggs_index.gif"> </a>
+      <div class="pub-rigwrap"> <a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218" height="120" src="images/pic1.jpg"> </a> </div>
+      <div class="pub-rigwrap"> <a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218" height="120" src="images/pic2.jpg"> </a> </div>
+      <div class="pub-rigwrap"> <a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218" height="120" src="images/pic3.jpg"> </a> </div>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <div class="bottom-box clearfix">
+    <div class="boul">
+      <ul class="boul-list">
+        <li class="li-x">
+          <h2 class="">用户帮助</h2>
+        </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">玩转窝窝</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">常见问题</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">秒杀规则</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">积分规则</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">代金券说明</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">评价说明</a> </li>
+      </ul>
+      <b class="ico"></b> </div>
+    <div class="boul">
+      <ul class="boul-list">
+        <li class="li-x">
+          <h2 class="h2-1">获取更新</h2>
+        </li>
+        <li> <a class="bolist-a" gae="weibo" href="#" target="_blank">窝窝团新浪微博</a> </li>
+        <li> <a class="bolist-a" gae="tencentbtm" href="#" target="_blank">窝窝团腾讯微博</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" gae="click_mobile_bottom" href="#">手机版下载</a> </li>
+      </ul>
+      <b class="ico ico2"></b> </div>
+    <div class="boul">
+      <ul class="boul-list">
+        <li class="li-x">
+          <h2 class="h2-2">商务合作</h2>
+        </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">商家入驻</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">提供团购信息</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">友情链接</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">开放API </a> </li>
+      </ul>
+      <b class="ico ico3"></b> </div>
+    <div class="boul">
+      <ul class="boul-list">
+        <li class="li-x">
+          <h2 class="h2-3">公司信息</h2>
+        </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">关于我们</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">媒体报道</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">加入我们</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">隐私声明</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">用户协议</a> </li>
+        <li> <a class="bolist-a" rel="nofollow" href="#">营业执照</a> </li>
+      </ul>
+      <b class="ico ico4"></b> </div>
+    <div class="kefu">
+      <div class="kefu-bottom">
+        <h2 class="kh2-0 bh">不满意就退款</h2>
+        <h2 class="kh2-1">24小时客服热线</h2>
+        <h2 class="kh2-2 bh">400-105-5555</h2>
+        <a class="bh kfwwweibo" target="_blank" href="#">窝窝团客服微博</a> </div>
+    </div>
+  </div>
+</div>
+<div class="footer-btm">
+  <div class="footer"> &copy; 2010-2014 55tuan.com 京ICP证100702号 京公海网安备110108000829号&nbsp; <a target="_blank" href="#">营业执照</a> </div>
+  <div class="footer">名称：北京窝窝团信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;地址 ：北京市海淀区上地信息路18号三层3001&nbsp;&nbsp;&nbsp;&nbsp;电话 ：010-59065200</div>
+  <div class="footer">营业执照注册号 ：110108011056221&nbsp;&nbsp;&nbsp;&nbsp;食品流通许可证：SP1101081110124921</div>
+  <div class="wowofawu"> <a class="fawu-1" rel="nofollow" href="#">支付宝</a> <a class="fawu-3" rel="nofollow" href="#" target="_blank">可信网站</a> <a class="fawu-5" rel="nofollow" href="#" target="_blank">经营性网站备案信息</a> </div>
+</div>
+<div id="ritfllow"> <a class="gotopBtn" href="#" style="visibility: visible; height: 38px;">top</a>
+  <div class="mobileBtn" style="visibility: hidden;">
+    <div class="codeImg"> <a gae="click_apr_erweima" target="_blank" href="#"> <img width="116" height="148" src="images/ritcodes0807.png"> </a> </div>
+  </div>
+  <a class="fee_opin" target="_blank" href="#">意见反馈</a> </div>
+  <div id="ritCode" v-show="imgadv" style="width: 160px; height: 160px;">
+    <div class="imgbox"><a gae="click_apr_erweima" target="_blank" href="#">
+      <img width="120" height="120" src="images/guanwang.png"> </a>
+      <a class="cCode" href="javascript:void(0)" @click="imgadv=false">close</a>
+      <span style="color: #fa8234">欢迎手机扫码登录窝窝网~</span>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script src="js/vue.js"></script>
+<script src="js/axios.js"></script>
+<script type="text/javascript">
+  let vm=new Vue({
+      el: "#shop",
+      data: {
+        isshow: true,
+        imgadv:true,
+        details:{},
+        contents:[],
+        sex:'',
+        loginname:'',
+        integral: 0,
+        ishref:'',
+      },
+
+    methods: {
+      //查看评论
+      see:function(){
+        var fid=GetKeyValue("fid");
+        this.ishref="comment.html?fid="+fid;
+      },
+      //我的订单
+      myOrder: function(){
+        var params = new URLSearchParams();
+        params.append("op","checkLogin");
+        axios.post("user.action",params).then(response=>{
+          if (response.data.code==0){
+            alert("用户未登录");
+            return;
+          }
+          window.location="myorder.html";
+        });
+      },
+      //是否能商家入住
+      isOK: function(){
+        if (this.integral<500){
+          alert("积分未满500，不能商家入住");
+          return;
+        }
+        window.location="reg.html?isshow=true";
+
+      },
+      //退出登录
+      loginout: function () {
+        axios.get('user.action?op=logout').then(response => {
+          if (response.data.code == 1) {
+            this.isshow = true;
+            this.loginname = '';
+          }
+        });
+      },
+      pullIntegral: function(){   //拉去当前用户积分
+        var params=new URLSearchParams();
+        params.append("op","pullIntegral");
+        return axios.post("user.action",params);
+      },
+      checkLogin: function () { //检查是否登录
+        return axios.get("user.action?op=checkLogin");
+      },
+        order: function (e) {
+            if(this.sex==''){
+              // console.log("值"+e.target.href );
+              e.target.href="";
+              alert("请选择商品规格");
+              return;
+            }
+
+            this.checkLogin().then(res=>{
+              if(res.data.code==1){
+              // :href=`shopcart.html?name=${sex}&fid=${details.fid}`
+                window.open("shopcart.html?name="+this.sex+"&fid="+this.details.fid , "_self");
+                var params=new URLSearchParams();
+                params.append("op","order");
+                axios.post("order.action",params);    //当前页面只需发送请求，使购物车保存当前订单
+              }else{
+                window.open("login.html","_self");
+                alert("请先登录");
+                return;
+              }
+            })
+
+        },
+
+      //查看详情
+      golook:function () {
+        var fid=GetKeyValue("fid");
+        var params = new URLSearchParams();
+        params.append("op","shopDetail");
+        params.append("fid",fid);
+        return axios.post("shop.action",params);
+      },
+    },
+    mounted: function () {
+      axios.all( [ this.golook(),this.checkLogin(),this.pullIntegral() ]).then( axios.spread(function (d1,d2,d3) {
+          if(d1.data.code==1){
+            var num1=d1.data.obj[0];
+            console.log(num1[0]);
+            console.log( d1.data.obj[1]);
+            vm.$data.details=num1[0];
+            vm.$data.contents=d1.data.obj[1];
+          }
+        if (d2.data.code == 1) {
+          vm.$data.isshow = false;
+          vm.$data.loginname = d2.data.obj.username;
+        }
+        if (d3.data.code==1){
+          vm.$data.integral=d3.data.obj.integral;
+        }
+
+      }))
+    }
+
+  });
+
+
+  //获取地址栏传值
+  function GetRequest() {
+    var url = location.search;
+    var theRequest = new Object();
+    if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for (var i = 0; i < strs.length; i++) {
+        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+      }
+    }
+    return theRequest;
+  }
+  //根据键名获取地址栏的某个参数的值
+  function GetKeyValue(key) {
+    var Request = new Object();
+    Request = GetRequest();
+    var KeyValue;
+    if (Request[key] == null || Request[key] == "") { KeyValue = ""; } else { KeyValue = Request[key]; }
+    return KeyValue;
+  }
+
+
+</script>
+
+</body>
+</html>

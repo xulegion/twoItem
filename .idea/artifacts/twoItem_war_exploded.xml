@@ -1,0 +1,35 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="twoItem:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/twoItem_war_exploded</output-path>
+    <root id="archive" name="twoItem_war exploded.war">
+      <element id="javaee-facet-resources" facet="twoItem/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="twoItem" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="gson-2.8.6" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/gson-2.8.6.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/jedis-3.6.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/slf4j-api-1.7.30.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/jsp-api.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/servlet-api.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-io-1.4.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-logging-1.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-io-1.4-sources.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-fileupload-1.2.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/alipay-sdk-java-4.13.70.ALL.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-fileupload-1.2.1-sources.jar" />
+          <element id="library" level="project" name="websocket-api" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/junit-4.8.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/lucene-core-7.4.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/lucene-queryparser-7.4.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/lucene-analyzers-common-7.4.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/ZhenziSmsSDK.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/fastdfs-client-java-1.29-SNAPSHOT.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

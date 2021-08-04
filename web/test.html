@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <select @change="indexSelect($event)">
+        <option v-for="option1 in YX" :value="option1.text">{{option1.text}}</option>
+    </select>
+    <select>
+        <option v-for="option2 in selection" :value="option2.text">{{option2.text}}</option>
+    </select>
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+    let vm=new Vue({
+        el:"#app",
+        data: {
+            city:'长沙市',
+            YX:[
+                {
+                    text:'长沙市',
+                    ZY:[
+                        {text:'芙蓉区'},
+                        {text:'天心区'},
+                        {text:'岳麓区'},
+                        {text:'开福区'},
+                        {text:'雨花区'},
+                        {text:'长沙县'},
+                        {text:'望城县'},
+                        {text:'宁乡县'},
+                        {text:'浏阳市'},
+                    ]
+                },
+                {
+                    text:'株洲市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+                {
+                    text:'湘潭市',
+                    ZY:[
+                        {text:'雨湖区'},
+                        {text:'岳塘区'},
+                        {text:'湘潭县'},
+                        {text:'湘乡市'},
+                        {text:'韶山市'},
+                    ]
+                },
+                {
+                    text:'衡阳市',
+                    ZY:[
+                        {text:'珠晖区'},
+                        {text:'雁峰区'},
+                        {text:'石鼓区'},
+                        {text:'蒸湘区'},
+                        {text:'南岳区'},
+                        {text:'衡阳县'},
+                        {text:'衡南县'},
+                        {text:'衡山县'},
+                        {text:'衡东县'},
+                        {text:'祁东县'},
+                        {text:'耒阳市'},
+                        {text:'常宁市'},
+                    ]
+                },
+                {
+                    text:'岳阳市',
+                    ZY:[
+                        {text:'岳阳楼区'},
+                        {text:'云溪区'},
+                        {text:'君山区'},
+                        {text:'岳阳县'},
+                        {text:'华容县'},
+                        {text:'湘阴县'},
+                        {text:'平江县'},
+                        {text:'汨罗市'},
+                        {text:'临湘市'},
+                    ]
+                },
+                {
+                    text:'邵阳市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },{
+                    text:'常德市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+                {
+                    text:'张家界市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+                {
+                    text:'益阳市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+                {
+                    text:'郴州市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+                {
+                    text:'永州市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+                {
+                    text:'怀化市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+                {
+                    text:'湘西自治州',
+                    ZY:[
+                        {text:'吉首市'},
+                        {text:'泸溪县'},
+                        {text:'凤凰县'},
+                        {text:'花垣县 '},
+                        {text:'保靖县'},
+                        {text:'古丈县'},
+                        {text:'永顺县'},
+                        {text:'龙山县'},
+                    ]
+                },
+                {
+                    text:'娄底市',
+                    ZY:[
+                        {text:'荷塘区'},
+                        {text:'芦淞区'},
+                        {text:'石峰区'},
+                        {text:'天元区'},
+                        {text:'株洲县'},
+                        {text:'茶陵县'},
+                        {text:'炎陵县'},
+                        {text:'醴陵市'},
+                        {text:'攸县'},
+                    ]
+                },
+
+
+            ]
+        },
+        methods:{
+            indexSelect(event){
+                this.city = event.target.value;
+                // console.log(this.A);
+            },
+        },
+
+        computed: {
+            selection :function(){
+                for(var i = 0; i < this.YX.length; i++){
+                    if(this.YX[i].text == this.city){
+                        return this.YX[i].ZY;
+                    }
+                }
+            },
+        },
+    })
+</script>
+
+
+</body>
+</html>

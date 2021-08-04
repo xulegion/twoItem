@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>窝窝团</title>
+    <link rel="stylesheet" href="css/basic.css"/>
+    <style>
+        #choice{
+            position:absolute;
+            left:420px;
+            top:68px;
+            width:360px;
+            border-bottom:2px #ff7000 solid;
+            background-color:#fffff7;
+            z-index:999;
+        }
+
+        .search-menu{
+            color:#ffffff;
+            padding-top:4px;
+            background-image: url("images/bottom-bg.gif");
+            height:30px;
+            overflow:hidden;
+            padding-left:10px;
+            text-align:left;
+            z-index:6;
+        }
+
+        #chat{
+            border: red solid 1px;
+            position: fixed;
+            bottom: 0px;
+            right: 1px;
+            background-color: #6da500;
+        }
+        #text{
+            position: fixed;
+            bottom: 11px;
+            right: 61px;
+        }
+        #but{
+            position: fixed;
+            bottom: 17px;
+            right: 11px;
+        }
+        #sendMessage{
+            position: fixed;
+            bottom: 0px;
+            right: 1px;
+            height: 53px;
+            width: 300px;
+            border: red solid 1px;
+            background-color: rebeccapurple;
+        }
+        .cCode{
+            position: fixed;
+            bottom: 331px;
+            right: 1px;
+            text-decoration: none;
+            background-color: yellow;
+        }
+        #zan{
+            width: 240px;
+            height: 30px;
+            float: right;
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+
+<body id="index">
+<div id="app">
+    <input id="currentTime_" type="hidden" value="1409623012768">
+    <div id="headTop">
+        <ul class="headTopUl clearfix">
+            <li class="headTopUser">
+                <ul class="headTopList clearfix">
+                    <li class="headRelat listmore"><em class="moreico">woico</em> <a class="Gray7" href="#">更多</a> <b
+                            class="triangleT">triangle</b>
+                        <ul class="ulbox linkmorbox">
+                            <li><a href="#">手机版下载</a></li>
+                            <li><a id="addEmailBtn" href="#">邮件订阅</a></li>
+                            <li><a href="#" onclick="AddFavorite(window.location.href,document.title)">收藏本站</a></li>
+                        </ul>
+                        <b class="bh whiteBor">遮盖</b></li>
+                    <li class="headRelat listsec"><a class="Gray7" href="#">关注</a> <b class="triangleT">triangle</b>
+                        <ul class="ulbox linkBoxsec">
+                            <li><a class="wowo-sina" href="#" target="_blank" title="窝窝团新浪微博">窝窝团新浪微博</a></li>
+                            <li><a class="wowo-qq" href="#" target="_blank" title="窝窝团腾讯微博">窝窝团腾讯微博</a></li>
+                            <li><a class="wowo-sina" href="#" title="窝窝团新浪客服微博" target="_blank">窝窝团新浪客服微博</a></li>
+                        </ul>
+                        <b class="bh whiteBor">遮盖</b></li>
+                    <li class="headRelat headline"><em class="l-ico"></em></li>
+                    <li class="headRelat list"><em class="woico">woico</em> <a class="Gray7" rel="nofollow"
+                                                                               href="#">我的窝窝</a> <b class="triangleT">triangle</b>
+                        <ul class="ulbox linkBox">
+                            <li><a rel="nofollow" href="javascript:void(0)" @click="myOrder()">我的订单</a></li>
+                            <li><a rel="nofollow" href="javascript:void(0)" @click="MyStroe()">我的收藏</a></li>
+                            <li v-if="loginname==''"><a rel="nofollow" href="#">我的积分</a></li>
+                            <li v-else><a rel="nofollow" href="#">我的积分:{{integral}}</a></li>
+                            <li v-if="loginname!=''"><a href="javascript:void(0)" @click="isOK()">商品注入</a></li>
+                            <li><a rel="nofollow" href="mycomment.html">我的评价</a></li>
+                            <li><a rel="nofollow" href="#">帐号设置</a></li>
+                            <li><a rel="nofollow" href="#">消息中心</a></li>
+                        </ul>
+                        <b class="bh whiteBor">遮盖</b></li>
+                </ul>
+            </li>
+            <li class="headTopLogin"><span class="Gray7" v-if="isshow"> 您好！请 [<a class="yellowd1" rel="nofollow"
+           href="login.html">登录</a>] <b class="borderdc">|</b>
+                [<a class="yellowd1" rel="nofollow" href="reg.html">注册</a>] <b
+                    class="borderdc p_0_10">|</b> </span>
+                <span class="Gray7" v-else style="font-family: '微软雅黑', '黑体';color: black">窝窝网站欢迎您{{loginname}}
+                    <a href="javascript:void(0)" @click="loginout()" style="color: blue">退出</a>
+                </span>
+                <ul class="clearfix">
+                    <li id="msgCount" class="headTopUlist no"><em class="messico">messico</em>
+                        <a class="Gray7" rel="nofollow" href="javascript:void(0)" @click="chat()">客服</a></li>
+                    <b class="borderdc p_1_10">|</b>
+                </ul>
+                <a id="integration" href="#"> <em></em> 100积分可以打八折哦！！！500积分七折哦！！！ </a></li>
+        </ul>
+    </div>
+    <div id="headMin">
+        <ul class="headConul clearfix">
+            <li class="logoLi"><a gae="click_logo" :href="isHref" @click="isIndex()">
+                <h1 class="bh logo">窝窝团</h1>
+            </a></li>
+            <li class="wowoTitLi"><a gae="click_slogan" href="#">
+                <h2 class="bh wowoTit">精挑细选</h2>
+            </a></li>
+            <li class="cityBox">
+                <h2 id="cityname" class="cityName">{{location}}</h2>
+                <span class="cityLink"> 【<a class="Gray5a" href="javascript:void(0)" gae="city_list" @click="change()" >切换城市</a>】 </span> <span
+                    id="show_city"
+                    class="cityTs"> <b
+                    class="triangbor">三角</b> <a id="ipClose" class="closeTs" href="#">关闭</a> 您是不是在 <em id="ipcityname"
+                                                                                                       class="bluec4">{{location}}</em> ？点击可选择其他城市 </span>
+            </li>
+            <li class="searchLi ">
+                <div class="searchlf"><span class="tri"></span>
+                    <div class="hd"><a class="on deal" href="#">团购</a> <a class="shoper" href="#">商家</a></div>
+                </div>
+                <form id="soso_form" method="get" action="">
+                    <input class="searchTxt" type="text" autocomplete="off" maxlength="140" v-model="name" name="name" value="请输入商品名、地址" placeholder="请输入商品名、地址" />
+                    <a id="soso_submit" class="searchBtn" href="javascript:void(0)" @click="search()">搜索</a>
+                    <input id="sg_from" type="hidden" name="sg_from" value="1">
+                    <input id="searchType" type="hidden" name="searchType" value="0">
+                </form>
+                <div class="hotkey" style="display:block" data-title="data_T"><a target="_self" href="#">月饼</a> <a
+                        class="on" target="_self" href="#">KTV</a> <a target="_self" href="#">蛋糕</a> <a target="_selsf"
+                                                                                                        href="#">希朵曼</a>
+                    <a
+                            target="_self" href="#">万达</a> <a target="_self" href="#">水上乐园</a></div>
+                <div class="hotkey" data-title="data_S" style="display: none;"><a target="_self" href="#">月饼</a> <a
+                        class="on" target="_self" href="#">KTV</a> <a target="_self" href="#">蛋糕</a> <a target="_self"
+                                                                                                        href="#">希朵曼</a>
+                    <a
+                            target="_self" href="#">万达</a> <a target="_self" href="#">水上乐园</a></div>
+                <div class="searchBox">
+                    <p class="searchTip">最近搜索过 </p>
+                    <ul class="clearfix">
+                    </ul>
+                </div>
+            </li>
+            <li id="userPointDiv" class="pointnum"><b class="triangbor">三角</b> <span class="Gray7"> 积分：<strong
+                    id="userPointStrong" class="red21"></strong> </span></li>
+        </ul>
+    </div>
+    <!--    选择城市定位-->
+    <div id="choice" v-show="showcity">
+        <DIV class="search-menu">
+            <TABLE width="100%" border="0" cellspacing="0" cellpadding="0">
+                <TR>
+                    <TD><IMG src="images/orangearrow.gif"> <SPAN class="white">请选择您所在城市</SPAN></TD>
+                    <TD align="right"><A href="javascript:void(0)" class="A-white" @click="changeCity()">[确定]</A>&nbsp;
+                        <A href="javascript:void(0)" class="A-white" @click="showcity=false" >[关 闭]</A>&nbsp;</TD>
+                </TR>
+            </TABLE>
+        </DIV>
+        <DIV>
+            <TABLE width="98%" border="0" cellspacing="0" cellpadding="0" align="center">
+                <TR >
+                    <TD height="25" v-for="item in citys.slice(0,4)">
+                        <INPUT name="tbox" type="radio" :value=`${item.location}` v-model="city">{{item.location}}</TD>
+                </TR>
+                <TR >
+                    <TD height="25" v-for="item in citys.slice(4,8)">
+                        <INPUT name="tbox" type="radio" :value=`${item.location}` v-model="city">{{item.location}}</TD>
+                </TR>
+                <TR >
+                    <TD height="25" v-for="item in citys.slice(8,12)">
+                        <INPUT name="tbox" type="radio" :value=`${item.location}` v-model="city">{{item.location}}</TD>
+                </TR>
+                <TR >
+                    <TD height="25" v-for="item in citys.slice(12,citys.length)">
+                        <INPUT name="tbox" type="radio" :value=`${item.location}` v-model="city">{{item.location}}</TD>
+                </TR>
+            </TABLE>
+        </DIV>
+    </div>
+    <div id="headNav">
+        <ul id="navList" class="navUl clearfix">
+            <li class="first_nav" date-nav="index"><a href="#">团购精选</a></li>
+            <li date-nav="shangcheng"><a href="#">窝窝商城</a></li>
+            <li class="zIndex2" date-nav="shenbian"><a href="#">身边</a></li>
+            <li date-nav="meishi"><a href="#">美食</a></li>
+            <li date-nav="yule"><a href="#">娱乐</a></li>
+            <li class="zIndex" date-nav="dianying"><a href="#">电影</a></li>
+            <li date-nav="meirongbaojian"><a href="#">美容保健</a></li>
+            <li date-nav="shenghuofuwu"><a href="#">生活服务</a></li>
+            <li date-nav="jiehun"><a href="#">结婚</a></li>
+            <li date-nav="lvyou"><a href="#">旅行</a></li>
+            <li date-nav="jiudian"><a href="#">酒店</a></li>
+            <li date-nav="shangpin"><a href="#">网购</a></li>
+            <li date-nav="shop"><a href="#">品牌汇</a></li>
+        </ul>
+    </div>
+    <div id="wowoFocus" class="focuswowo">
+        <ul style="height: 540px; top: -90px;">
+            <li v-show="showimg"></li>
+            <li v-show="showimg==1"><a target="_blank" href="#"> <img class="lazyload" width="960" height="90" original="images/ggs1.jpg"
+                                                  src="images/ggs1.jpg" visibility="hidden"> </a></li>
+            <li v-show="showimg==2"><a target="_blank" href="#"> <img width="960" height="90" src="images/ggs2.jpg"> </a></li>
+            <li v-show="showimg==3"><a target="_blank" href="#"> <img class="lazyload" width="960" height="90" original="images/ggs3.jpg"
+                                                  src="images/ggs3.jpg" visibility="hidden"> </a></li>
+            <li v-show="showimg==4"><a target="_blank" href="#"> <img class="lazyload" width="960" height="90" original="images/ggs4.jpg"
+                                                  src="images/ggs4.jpg" visibility="hidden"> </a></li>
+            <li v-show="showimg==5"><a target="_blank" href="#"> <img class="lazyload" width="960" height="90" original="images/ggs5.jpg"
+                                                  src="images/ggs5.jpg" visibility="hidden"> </a></li>
+            <li v-show="showimg==6"><a target="_blank" href="#"> <img class="lazyload" width="960" height="90" original="images/ggs1.jpg"
+                                                  src="images/ggs6.jpg" visibility="hidden"> </a></li>
+        </ul>
+    </div>
+    <div class="con-boxIndex clearfix">
+        <ul class="goods-allInd clearfix">
+            <li class="good-list" v-for="item in foods">
+                <h2 class="good-title">
+                    <a class="biaoa"
+                       title="【石鼓区】仅98元，享价值196元『熊猫餐谋环球海鲜自助餐厅』周一至周五双人自助午餐1份！提供免费WIFI，提供免费停车位！必含女士1名，提供免费专车接送，尽享环球美食！"
+                       target="_blank" href="details.html">
+                        <strong>{{item.fname}}</strong>
+                    {{item.detail}} </a>
+                </h2>
+                <div class="index-smalllogo"><a class="yuy" target="_blank" href="details.html">免预约</a></div>
+                <a class="picture" target="_blank" href="details.html">
+                    <img width="348" height="232" rel="nofollow"
+                         :src=`${item.fphoto}`> </a>
+                <div class="buy-boxInd clearfix">
+                    <a class="bh buy_a" rel="nofollow" :href=`details.html?fid=${item.fid}` target="_self" status="0">去看看</a>
+                    <span class="num">{{item.price}}</span> <span class="past">价值 ¥196</span>
+                    <img v-if="item.isStroe==false" style="width: 30px;height: 30px;float: right;margin-right: 100px;" src="images/noStore.png" @click="isStroe(item.fid)"/>
+                    <img v-else="item.isStroe==true" style="width: 30px;height: 30px;float: right;margin-right: 100px;" src="images/Store.png" @click="isStroe(item.fid)"/>
+                    <div id="zan" >收藏人数:{{item.scard}}</div>
+                </div>
+            </li>
+            <!-- 页码-->
+            <div id="page" v-show="ispage">
+            <span style="color: coral">当前第{{pagenum}}页/共{{totalpages}}页</span>&nbsp;&nbsp;
+            <span style="color: coral">共{{totals}}条记录/每页{{pagesize}}条</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>
+				<a style="color: coral" href="javascript:void(0)" @click="showPage(firstpage)">首页</a>&nbsp;&nbsp;
+				<a style="color: coral" href="javascript:void(0)" @click="showPage(prepage)">上一页</a>&nbsp;&nbsp;
+				<a style="color: coral" href="javascript:void(0)" @click="showPage(nextpage)">下一页</a>&nbsp;&nbsp;
+				<a style="color: coral" href="javascript:void(0)" @click="showPage(totalpages)">尾页</a>
+			</span>
+            每页<select @change="choosePagesize($event)">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option selected="selected">4</option>
+                </select>条
+            </div>
+        </ul>
+        <div class="con-boxrig">
+            <div class="pub-rigwrap"><a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218"
+                                                                                      height="120"
+                                                                                      src="images/baozhang.png"> </a>
+            </div>
+            <a href="#" gae="AD_ALL-SY-RT-00000003-0-82" target="_blank"> <img class="right_ggimg" width="218"
+                                                                               height="120"
+                                                                               src="images/ggs_index.gif"> </a>
+            <div class="pub-rigwrap"><a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218"
+                                                                                      height="120"
+                                                                                      src="images/pic1.jpg">
+            </a></div>
+            <div class="pub-rigwrap"><a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218"
+                                                                                      height="120"
+                                                                                      src="images/pic2.jpg">
+            </a></div>
+            <div class="pub-rigwrap"><a rel="nofollow" target="_blank" href="#"> <img class="baozhangimg" width="218"
+                                                                                      height="120"
+                                                                                      src="images/pic3.jpg">
+            </a></div>
+        </div>
+    </div>
+    <dl id="FriendLink">
+        <dt class="hd">
+            <ul class="tit">
+                <li class="titlist"><a class="aBtn" href="#">热门城市</a></li>
+                <li class="titlist"><a class="aBtn" href="#">友情链接</a></li>
+            </ul>
+        </dt>
+        <dd class="bd">
+            <ul class="linkbox" style="display: block;">
+                <li class="linkList"><a class="aLink" href="#" target="_blank">湘潭团购</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">常德团购</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">株洲团购</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">衡阳团购</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">长沙团购</a></li>
+            </ul>
+            <ul class="linkbox" style="display: none;">
+                <li class="linkList"><a class="aLink" href="#" target="_blank">衡阳招聘</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">衡阳租房</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">衡阳旅游线路</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">衡阳团购</a></li>
+                <li class="linkList"><a class="aLink" href="#" target="_blank">衡阳天气</a></li>
+            </ul>
+        </dd>
+    </dl>
+    <div id="footer">
+        <div class="bottom-box clearfix">
+            <div class="boul">
+                <ul class="boul-list">
+                    <li class="li-x">
+                        <h2 class="">用户帮助</h2>
+                    </li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">玩转窝窝</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">常见问题</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">秒杀规则</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">积分规则</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">代金券说明</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">评价说明</a></li>
+                </ul>
+                <b class="ico"></b></div>
+            <div class="boul">
+                <ul class="boul-list">
+                    <li class="li-x">
+                        <h2 class="h2-1">获取更新</h2>
+                    </li>
+                    <li><a class="bolist-a" href="#" target="_blank">窝窝团新浪微博</a></li>
+                    <li><a class="bolist-a" href="#" target="_blank">窝窝团腾讯微博</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">手机版下载</a></li>
+                </ul>
+                <b class="ico ico2"></b></div>
+            <div class="boul">
+                <ul class="boul-list">
+                    <li class="li-x">
+                        <h2 class="h2-2">商务合作</h2>
+                    </li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">商家入驻</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">提供团购信息</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">友情链接</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">开放API </a></li>
+                </ul>
+                <b class="ico ico3"></b></div>
+            <div class="boul">
+                <ul class="boul-list">
+                    <li class="li-x">
+                        <h2 class="h2-3">公司信息</h2>
+                    </li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">关于我们</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">媒体报道</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">加入我们</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">隐私声明</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">用户协议</a></li>
+                    <li><a class="bolist-a" rel="nofollow" href="#">营业执照</a></li>
+                </ul>
+                <b class="ico ico4"></b></div>
+            <div class="kefu">
+                <div class="kefu-bottom">
+                    <h2 class="kh2-0 bh">不满意就退款</h2>
+                    <h2 class="kh2-1">24小时客服热线</h2>
+                    <h2 class="kh2-2 bh">400-105-5555</h2>
+                    <a class="bh kfwwweibo" target="_blank" href="#">窝窝团客服微博</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-btm">
+        <div class="footer"> &copy; 2010-2014 55tuan.com 京ICP证100702号 京公海网安备110108000829号&nbsp; <a target="_blank"
+                                                                                                   href="#">营业执照</a>
+        </div>
+        <div class="footer">名称：北京窝窝团信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;地址 ：北京市海淀区上地信息路18号三层3001&nbsp;&nbsp;&nbsp;&nbsp;电话
+            ：010-59065200
+        </div>
+        <div class="footer">营业执照注册号 ：110108011056221&nbsp;&nbsp;&nbsp;&nbsp;食品流通许可证：SP1101081110124921</div>
+        <div class="wowofawu"><a class="fawu-1" rel="nofollow" href="#">支付宝</a> <a class="fawu-3" rel="nofollow"
+                                                                                   href="#"
+                                                                                   target="_blank">可信网站</a> <a
+                class="fawu-5" rel="nofollow" href="#" target="_blank">经营性网站备案信息</a></div>
+    </div>
+
+    <div id="ritCode" v-show="imgadv" style="width: 160px; height: 160px;">
+        <div class="imgbox"><a gae="click_apr_erweima" target="_blank" href="#">
+            <img width="120" height="120" src="images/guanwang.png"> </a>
+            <a class="cCode" href="javascript:void(0)" @click="imgadv=false">close</a>
+            <span style="color: #fa8234">欢迎手机扫码登录窝窝网~</span>
+        </div>
+
+    </div>
+
+    <div id="chat" style="width: 300px;height: 350px;" v-show="showchat" >
+        <a class="cCode" href="javascript:void(0)" @click="closeChat()">X</a>
+        <div id="messages" style="overflow-y: auto;height: 300px;" >
+                    <span>
+                        <span>欢迎光临窝窝客服，有什么可以为您服务的呢~</br></span>
+                    </span>
+        </div>
+        <div id="sendMessage">
+            <table>
+                <tr>
+                    <td>
+                        <textarea id="text" rows="2" style="width: 220px" ></textarea>
+                        <input id="but" type="button" value="发送" onclick="send()"/>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+<script src="js/vue.js"></script>
+<script src="js/axios.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script type="text/javascript">
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            isshow: true,
+            loginname: '',
+            integral: 0,
+            foods: [],        //商品
+            name:'',      //搜索商品name
+            Stroe: [],   //收藏的商品
+            showimg:true,
+            location:'',  //定位
+            citys:[],
+            city:'',  //选择位置
+            showcity:false,
+            imgadv:true,
+            showchat:false,  //客服窗口
+            ispage:true,
+            isHref:'',
+
+            scardList:[],      //收藏集合
+            data: [],        //数据
+            pagenum: 1,      //当前第几页
+            totalpages: 1,   //   总页数
+            totals: 1,       //总记录数
+            pagesize: 1,     //每页多少条
+            prepage: 1,     //前一页的页号
+            nextpage: 2,     //后一页的页号
+            firstpage: 1,    //第一页
+
+        },
+        methods: {
+            isIndex:function(){
+                this.isHref="index.html";
+                this.ispage=true;
+            },
+            //切换页面大小
+            choosePagesize:function(e){
+                var pagesize=e.target.value;
+                console.log( pagesize );
+                var params = new URLSearchParams();
+                params.append("location",this.location);
+                params.append("pagenum",this.pagenum);
+                params.append("op","Opshop");
+                params.append("pagesize",pagesize);
+                axios.post("shop.action",params).then(response => {
+                    if(response.data.code==1){
+                        this.setPage(response.data.obj);
+                        for (var i=0;i<vm.$data.foods.length;i++){
+                            for (var j=0;j<vm.$data.Stroe.length;j++){
+                                if (vm.$data.Stroe[j]==vm.$data.foods[i].fid){
+                                    vm.$data.foods[i].isStroe=true;
+                                }
+                            }
+                        }
+                    }else if(response.data.code==2){
+                        this.setPage(response.data.obj);
+                        for (var i=0;i<vm.$data.foods.length;i++){
+                            vm.$set(vm.$data.foods[i],"isStroe",false);
+                        }
+                    }
+                });
+            },
+            closeChat: function(){
+                this.showchat=false;
+                closeWebSocket();
+            },
+            //打开客服聊天窗口
+            chat:function(){
+                this.checkLogin().then(res=>{
+                    if(res.data.code==1){
+                        this.showchat=true;
+                        isSupport();
+                    }else{
+                        alert("请先登录");
+                    }
+                })
+            },
+            //获取城市列表
+            getCity:function () {
+                return axios.get("shop.action?op=getcity");
+            },
+            //点击切换城市
+            change:function(){
+                this.city=this.location;
+                this.showcity=true;
+            },
+            //确定城市
+            changeCity :function(){
+                this.location=this.city;
+                this.showcity=false;
+                var params = new URLSearchParams();
+                params.append("op","Opshop");
+                params.append("location",this.location);
+                axios.post("shop.action",params).then(response=>{
+                    if(response.data.code==1){
+                        this.setPage(response.data.obj);
+
+                        for (var i=0;i<vm.$data.foods.length;i++){
+                            for (var j=0;j<vm.$data.Stroe.length;j++){
+                                if (vm.$data.Stroe[j]==vm.$data.foods[i].fid){
+                                    vm.$data.foods[i].isStroe=true;
+                                }
+                            }
+                        }
+                    }else if(response.data.code==2){
+                        this.setPage(response.data.obj);
+                        for (var i=0;i<vm.$data.foods.length;i++){
+                            vm.$set(vm.$data.foods[i],"isStroe",false);
+                        }
+                    }
+                });
+            },
+            //我的订单
+            myOrder: function(){
+                var params = new URLSearchParams();
+                params.append("op","checkLogin");
+                axios.post("user.action",params).then(response=>{
+                    if (response.data.code==0){
+                        alert("用户未登录");
+                        return;
+                    }
+                    window.location="myorder.html";
+                });
+            },
+            //是否能商家入住
+            isOK: function(){
+               if (this.integral<500){
+                   alert("积分未满500，不能商家入住");
+                   return;
+               }
+               window.location="reg.html?isshow=true";
+
+            },
+            //我的收藏
+            MyStroe: function(){
+                var params = new URLSearchParams();
+                params.append("op","myStroe");
+                axios.post("user.action",params).then(response=>{
+                    if (response.data.code==1){
+                        this.ispage=false;
+                        vm.$data.foods=response.data.obj[0];
+                        for (var i=0;i<vm.$data.foods.length;i++){
+                            vm.$set(vm.$data.foods[i],"isStroe",true);
+                            // vm.$set(vm.$data.foods[i],"scard",vm.$data.scardList[i]);
+                            vm.$data.foods[i].scard=(response.data.obj[1])[i];  //我的集合的收藏数
+
+                        }
+                    }else if (response.data.code==0){
+                        alert(response.data.msg);
+                    }else if (response.data.code==2){
+                        alert(response.data.msg);
+                    }
+                });
+            },
+            //搜索
+            search:function(){
+                var params = new URLSearchParams();
+                params.append("op","search");
+                params.append("name",this.name);
+                axios.post("shop.action",params).then(res=>{
+                    if(res.data.code==1){
+                        this.ispage=false;
+                        this.foods=res.data.obj[0];
+                    }else if (res.data.code==0){
+                        alert("没有此类似商品");
+                        this.foods=res.data.obj[0];
+                    }
+                    for (var i=0;i<vm.$data.foods.length;i++){
+                        vm.$set(vm.$data.foods[i],"isStroe",false);
+                    }
+                    for (var i=0;i<vm.$data.foods.length;i++){
+                        for (var j=0;j<vm.$data.Stroe.length;j++){
+                            if (vm.$data.Stroe[j]==vm.$data.foods[i].fid){
+                                vm.$data.foods[i].isStroe=true;
+                            }
+                        }
+
+                        vm.$data.foods[i].scard=(res.data.obj[1])[i];
+
+                    }
+                })
+            },
+            //收藏与取消
+           isStroe: function(fid){
+                var params = new URLSearchParams();
+                params.append("fid",fid);
+                params.append("op","isStroe")
+                axios.post("user.action",params).then(response=>{
+                    if (response.data.code==0){
+                        alert("请先登录");
+                        return;
+                    }else if (response.data.code==1){
+                        vm.$data.Stroe=response.data.obj[0];
+                        for (var i=0;i<vm.$data.foods.length;i++){
+                            vm.$data.foods[i].isStroe=false;
+                            for (var j=0;j<vm.$data.Stroe.length;j++){
+                                if (vm.$data.Stroe[j]==vm.$data.foods[i].fid){
+                                    vm.$data.foods[i].isStroe=true;
+                                }
+                            }
+                            //收藏数
+                            if( vm.$data.foods[i].fid==fid ){
+                                // console.log( vm.$data.foods[i]  );
+                                vm.$data.foods[i].scard=response.data.obj[1];
+                            }
+                        }
+
+                    }
+
+                });
+           },
+            checkLogin: function () { //检查是否登录
+                return axios.get("user.action?op=checkLogin");
+            },
+            pullFoods: function(){
+                var params=new URLSearchParams();
+                params.append("location",this.location);
+                params.append("op","Opshop");
+                return axios.post("shop.action",params);
+            },
+            pullIntegral: function(){   //拉去当前用户积分
+                var params=new URLSearchParams();
+                params.append("op","pullIntegral");
+                return axios.post("user.action",params);
+            },
+            //拉去用户收藏的bussiness
+            pullStore: function(){
+                var params=new URLSearchParams();
+                params.append("op","pullStore");
+                return axios.post("user.action",params);
+            },
+
+            //退出登录
+            loginout: function () {
+                axios.get('user.action?op=logout').then(response => {
+                    if (response.data.code == 1) {
+                        this.isshow = true;
+                        this.loginname = '';
+                    }
+                });
+            },
+            //分页
+            setPage: function (pageBean) {
+                vm.$data.scardList=pageBean.scardList;   //收藏集合
+                vm.$data.foods = pageBean.data;        //数据
+                this.pagenum = pageBean.pagenum;       //当前第几页
+                this.totalpages = pageBean.totalpages;  //   总页数
+                this.totals = pageBean.totals;          //总记录数
+                this.pagesize = pageBean.pagesize;      //每页多少条
+                this.prepage = pageBean.prepage;        //前一页的页号
+                this.nextpage = pageBean.nextpage;      //后一页的页号
+                this.firstpage = 1;     //第一页
+
+                for (var i=0;i<vm.$data.foods.length;i++){
+                    vm.$set(vm.$data.foods[i],"isStroe",false);
+                    for (var j=0;j<vm.$data.Stroe.length;j++){
+                        if (vm.$data.Stroe[j]==vm.$data.foods[i].fid){
+                            vm.$data.foods[i].isStroe=true;
+                        }
+                    }
+                    vm.$set(vm.$data.foods[i],"scard",vm.$data.scardList[i]);
+                }
+            },
+            showPage: function (pageNum) {
+                var params=new URLSearchParams();
+                params.append("location",this.location);
+                params.append("op","Opshop");
+                params.append("pagenum",pageNum);
+                params.append("pagesize",this.pagesize);
+                axios.post("shop.action",params).then(response => {
+                    if (response.data.code != 0) {
+                        this.setPage(response.data.obj);
+                    }
+                });
+            },
+        },
+        mounted: function () {
+            //城市名称
+            var str=JSON.stringify(returnCitySN.cname).split("省")[1];
+            this.location=str.substr(0,str.length-2);
+
+            //1 5 3 2 4
+            axios.all([this.checkLogin(),this.getCity(),this.pullIntegral(),this.pullFoods(),this.pullStore()]).then(axios.spread(function (d1,d5,d3,d2,d4) {
+                if (d1.data.code == 1) {
+                    vm.$data.isshow = false;
+                    vm.$data.loginname = d1.data.obj.username;
+                }
+
+                if (d2.data.code!=0){
+                    vm.setPage(d2.data.obj);
+
+                    // vm.$data.foods=d2.data.obj;
+                    // for (var i=0;i<vm.$data.foods.length;i++){
+                    //     vm.$set(vm.$data.foods[i],"isStroe",false);
+                    // }
+                }
+
+                if (d3.data.code==1){
+                    vm.$data.integral=d3.data.obj.integral;
+                }
+
+                if (d4.data.code==1){
+                    vm.$data.Stroe=d4.data.obj;
+                    for (var i=0;i<vm.$data.foods.length;i++){
+
+                        for (var j=0;j<vm.$data.Stroe.length;j++){
+                            if (vm.$data.Stroe[j]==vm.$data.foods[i].fid){
+                                vm.$data.foods[i].isStroe=true;
+                            }
+                        }
+                    }
+                }
+                if(d5.data.code==1){
+                    vm.$data.citys=d5.data.obj;
+                }
+            }))
+        }
+    });
+    //切换图片
+    setInterval("adv()",1300);
+    function adv() {
+        vm.$data.showimg=vm.$data.showimg+1;
+        if(vm.$data.showimg>5){
+            vm.$data.showimg=1;
+        }
+    }
+
+    function isSupport() {
+        //判断当前浏览器是否支持WebSocket
+        if('WebSocket' in window){
+            var loginname = vm.$data.loginname;
+            websocket = new WebSocket("ws://39.103.237.140/twoItem30/CSServlet/"+loginname);
+            //连接发生错误的回调方法
+            websocket.onerror = function(){
+               alert("人工客服繁忙，请稍后再试");
+            };
+
+            //连接成功建立的回调方法
+            websocket.onopen = function(event){
+                var curentTime = getCurentTime(true);
+                curentTime="---"+curentTime+"---";
+                setMessageInnerHTML(curentTime);
+            }
+
+            //接收到消息的回调方法
+            websocket.onmessage = function(event){
+                setMessageInnerHTML(event.data);
+            }
+
+            //连接关闭的回调方法
+            websocket.onclose = function(){
+
+            }
+
+            //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+            window.onbeforeunload = function(){
+                websocket.close();
+            }
+
+            console.log("link success");
+        }else{
+            alert('Not support websocket,请更新版本');
+        }
+    }
+    //发送消息
+     function send(){
+        var message = document.getElementById('text').value;
+        if (message==""){
+            alert("消息不能为空");
+            return;
+        }
+        document.getElementById('text').value="";
+        websocket.send(message);
+
+    }
+    // //将消息显示在网页上
+    // function setMessageInnerHTML(innerHTML){
+    //     var split = innerHTML.split(":");
+    //     if (split[0]==vm.$data.loginname){
+    //        innerHTML=split[1]+":"+split[0];    //简单考虑了下，没有考虑 消息中带有“  :  ”;
+    //     }
+    //     // document.getElementById('messages').innerHTML += innerHTML + '<br/>';
+    //     document.getElementById("msg").innerHTML+=innerHTML + '<br/>';
+    //     document.getElementById("msg_end").click();
+    // }
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML){
+        var split = innerHTML.split(":");
+        if (split[0]==vm.$data.loginname){
+            innerHTML=split[1]+":"+split[0];    //简单考虑了下，没有考虑 消息中带有“  :  ”;
+            innerHTML="<span style='float: right'>"+innerHTML+"</span>"
+        }
+        document.getElementById('messages').innerHTML += innerHTML + '<br/>';
+        var div = document.getElementById('messages');
+        div.scrollTop = div.scrollHeight;
+    }
+
+    //关闭连接
+    function closeWebSocket(){
+        websocket.close();
+    }
+
+    /**
+     * 获取当前时间
+     * @param isTime  true：显示日期和时间，如：2021-07-23 16:19:22；false：显示日期，如：2021-07-23。
+     * @returns {string}
+     */
+    function getCurentTime(isTime) {
+        var now = new Date();
+        var clock = "";
+        var year = now.getFullYear();       // 年
+        clock += year + "-";
+        var month = now.getMonth() + 1;     // 月
+        if (month < 10) {
+            clock += "0";
+        }
+        clock += month + "-";
+        var day = now.getDate();            // 日
+        if (day < 10) {
+            clock += "0";
+        }
+        if (isTime == true) {
+            clock += day + " ";
+            var hh = now.getHours();            // 时
+            if (hh < 10) {
+                clock += "0";
+            }
+
+            clock += hh + "-";
+            var mm = now.getMinutes();     // 分
+            if (mm < 10) {
+                clock += '0';
+            }
+            clock += mm + "-";
+            var ss = now.getSeconds();     // 秒
+            if (ss < 10) {
+                clock += '0';
+            }
+            clock += ss;
+        }
+        if (isTime == false) {
+            clock += day;
+        }
+        return clock;
+    }
+
+    //收藏本站
+    function AddFavorite(sURL, sTitle){
+        try{
+            window.external.addFavorite(sURL, sTitle);
+        }catch(e){
+            try {
+                window.sidebar.addPanel(sTitle, sURL, "");
+            }catch(e){
+                alert("加入收藏失败，请使用Ctrl+D进行添加");
+            }
+        }
+    }
+</script>
+</body>
+</html>
